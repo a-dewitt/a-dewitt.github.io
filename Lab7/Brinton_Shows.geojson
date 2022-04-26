@@ -1,4 +1,4 @@
-{
+var BrintonShow = [{
 "type": "FeatureCollection",
 "name": "BrintonShow",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
@@ -1289,3 +1289,4 @@
 { "type": "Feature", "properties": { "name": "Opera House", "latitude": 41.198372, "longitude": -92.093089, "time": "12/18/1908" }, "geometry": { "type": "Point", "coordinates": [ -92.093089, 41.198372 ] } }
 ]
 }
+]

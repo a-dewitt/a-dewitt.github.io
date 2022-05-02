@@ -1,4 +1,4 @@
-var whitehorse = [
+var whitehorse =
 {
 "type": "FeatureCollection",
 "name": "whitehorse_buildings",
@@ -28,4 +28,3 @@ var whitehorse = [
 { "type": "Feature", "properties": { "OBJECTID": 143, "ID": null, "ASSET_ID": "BLDG00353A", "DESC_1": "PSB - Bulk Water Fill Station", "DESC_2": "PSB - Bulk Water Fill Station", "STREET": null, "HOUSE_NUM": null, "OWNERSHIP": "City", "TYPE": "Utilities", "DESC_3": null, "OLDASSETID": null, "DEPTMENT": null, "PUBWORKSID": null, "CHECKED": null, "LINK_DOCUM": null, "LINK_PAGE": null, "LINK_POST_": null, "SHAPE_AREA": 69.43893275000001, "SHAPE_LEN": 33.742086141844197 }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 495117.614699999394361, 6733045.142300182953477, 0.0 ], [ 495124.493900000117719, 6733047.153100182302296, 0.0 ], [ 495127.457200000586454, 6733037.945600183680654, 0.0 ], [ 495120.683899999596179, 6733035.828900182619691, 0.0 ], [ 495117.614699999394361, 6733045.142300182953477, 0.0 ] ] ] ] } }
 ]
 }
-]

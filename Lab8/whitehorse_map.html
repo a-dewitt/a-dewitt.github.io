@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lab 8 | D3</title>
+    <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+    <script src = https://a-dewitt.github.io/Lab8/Whitehorse_buildings1.js></script>
+    <script src = https://a-dewitt.github.io/Lab8/whroads.js></script>
+    <script src = https://a-dewitt.github.io/Lab8/canada.js></script>
+
+    <style>
+    body {
+        position: absolute;
+        font-family: "Proxima Nova", "Montserrat", sans-serif;
+    }
+    h1, h2 {
+        position: absolute;
+    background: white;
+        left: 10px;
+        font-size: 1.3em;
+        font-weight: 100;
+    }
+    h2 {
+        top: 30px;
+        font-size: 1em;
+    }
+    .hover {
+        fill: yellow;
+    }
+    </style>
+  </head>
+
+  <body>
+    <h1>Buildings of Whitehorse</h1>
+    <h2></h2>
+    <script>
+var width = 1000;
+var height = 600;
+var lowColor = '#bc2a66';
+var highColor = '#f9f9f9';
+var minVal = 0 ;
+var maxVal = 5000;
+var ramp = d3.scaleLinear().domain([minVal,maxVal]).range([lowColor,highColor]);
+var svg = d3.select("body")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+var albersProjection = d3.geoAlbers()
+  .scale(250)
+  .rotate([50, 0])
+  .center([-120, 100])
+  .translate([width/2,height/2]);
+
+  var g = svg.append("g");
+
+  var geoPath = d3.geoPath()
+    .projection(albersProjection);
+
+  g.selectAll("path")
+    .data(whroads.features)
+    .enter()
+    .append("path")
+    .attr("fill", "#ccc")
+    .attr("stroke", "#333")
+    .attr("d", geoPath);
+
+  g.selectAll("path")
+    .data(Canada.features)
+    .enter()
+    .append("path")
+    .attr("fill", "#000000")
+    .attr("stroke", "#333")
+    .attr("d", geoPath);
+
+  var whiteBuild = svg.append("g");
+
+  whiteBuild.selectAll("path")
+    .data(whitehorse.features)
+    .enter()
+    .append( "path" )
+    .attr ( "fill", "#000")
+    .attr( "stroke", "#999" )
+    .attr( "d", geoPath )
+    .attr("class","buildingdata")
+    .on("mouseover", function(d){
+    d3.select("h2").text("Street" + d.properties.HOUSE_NUM);
+      d3.select(this).attr("class","buildingdata hover");
+      })
+      .on("mouseout", function(d){
+          d3.select("h2").text("");
+          d3.select(this).attr("class","buildingdata");
+});
+
+    </script>
+  </body>
+</html>

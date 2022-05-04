@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>Trees + Environmental Benefit</title>
+    <link rel="stylesheet"
+href="https://js.arcgis.com/4.14/esri/themes/light/main.css"/>
+    <script src="https://js.arcgis.com/4.14/"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {padding: 0; margin: 0; height: 100%; width: 100%; }
+   </style>
+    <script>
+require(["esri/WebScene","esri/views/SceneView","esri/layers/FeatureLayer",
+"esri/layers/SceneLayer","esri/tasks/support/Query","esri/widgets/Legend","esri/renderers/ClassBreaksRenderer","esri/layers/GeoJSONLayer"],
+
+function(WebScene, SceneView, FeatureLayer, SceneLayer, Query, Legend, ClassBreaksRenderer, GeoJSONLayer) {
+        var map = new WebScene({
+          basemap: "satellite",
+          ground: "world-elevation"
+        });
+
+        var view = new SceneView({
+          container: "viewDiv",
+          map: map,
+          camera: {
+            position: {
+              latitude: 41.246997,
+              longitude: -96.003631,
+              z: 400
+            },
+            tilt: 85,
+            heading: 320
+          },
+          environment: {
+            lighting: {
+              date: new Date("July 1, 2020 12:00:00 EDT"),
+              directShadowsEnabled: true,
+              ambientOcclusionEnabled: true
+            }
+          }
+        });
+
+        const treePopup = {
+                    title: "Tree Details",
+                    content: [
+                      {
+                        type: "fields",
+                        fieldInfos: [
+                          {
+                            fieldName: "SPECIES",
+                            label: "Species"},
+                              {fieldName: "NAME",
+                            label: "Common Name"},
+                            {fieldName: "HEIGHT",
+                          label: "Height"},
+                        {fieldName: "CONDITION",
+                      label: "Condition"}
+                          ]}]};
+
+        var vegetationLayer = new FeatureLayer({
+                  url:"https://gis.dogis.org/arcgis/rest/services/OpenData_Parks/MapServer/0",
+                  popupTemplate: treePopup,
+                  elevationInfo: {
+                    mode: "on-the-ground"
+                  },
+                  renderer: {
+                    type: "unique-value",
+                    field: "SPECIES",
+                    defaultSymbol: {
+                      type: "web-style",
+                      name: "Unknown",
+                      styleName: "EsriRealisticTreesStyle"
+                    },
+                    uniqueValueInfos: uniqueValueInfos,
+                    visualVariables: [
+                      {
+                        type: "size",
+                        field: "HEIGHT",
+                        axis: "height"
+                      },
+                      {
+                        type: "rotation",
+                        valueExpression: "random() * 360"
+                      }
+                    ]
+                  }
+                });
+                map.add(vegetationLayer);
+
+                var legend = new Legend({
+                    view:view,
+                      layerInfos: [{
+                          layer: vegetationLayer,
+                            title: "Legend"
+                            }]
+                          });
+                view.ui.add(legend, "bottom-right");
+
+            let soilRenderer = {
+            type: "simple",
+            symbol: {
+              type: "simple-fill",
+              color: [ 0, 213, 0, 0.1 ],
+              outline: {
+                width: 3,
+                color: [ 255, 255, 255, 1 ]
+              }
+            }
+          };
+
+          const popupTemplate = {
+                      title: "Soil Composition Details",
+                      content: [
+                        {
+                          type: "fields",
+                          fieldInfos: [
+                            {
+                              fieldName: "compname",
+                              label: "Soil Name"},
+                                {fieldName: "runoff",
+                              label: "Runoff Occurrence"},
+                              {fieldName: "earthcovki",
+                            label: "Groundcover"},
+                          {fieldName: "taxclname",
+                        label: "Composition and Particle Size"}
+                            ]}]};
+
+          let soilLayer = new FeatureLayer({
+            url: "https://gis.dogis.org/arcgis/rest/services/DC_Environmental/DC_Environmental/MapServer/5",
+            renderer: soilRenderer,
+            popupTemplate: popupTemplate
+          });
+    map.add(soilLayer);
+});
+
+        var uniqueValueInfos = [
+          {
+            value: "Ash, Green",
+            symbol: {
+              type: "web-style",
+              name: "Platanus",
+              styleName: "EsriRealisticTreesStyle"
+            }
+          },
+          {
+            value: "Hackberry",
+            symbol: {
+              type: "web-style",
+              name: "Amelanchier",
+              styleName: "EsriRealisticTreesStyle"
+            }
+          },
+          {
+            value: "Maple, Silver",
+            symbol: {
+              type: "web-style",
+              name: "Acer",
+              styleName: "EsriRealisticTreesStyle"
+            }
+          },
+                    {
+            value: "Stump",
+            symbol: {
+              type: "web-style",
+              name: "Hamamelis",
+              styleName: "EsriRealisticTreesStyle"
+            }
+          },
+                              {
+            value: "Ash, Condemned",
+            symbol: {
+              type: "web-style",
+              name: "GenericDead",
+              styleName: "EsriRealisticTreesStyle"
+            }
+          },
+          {
+            value: "Cottonwood",
+            symbol: {
+              type: "web-style",
+              name: "Ulmus",
+              styleName: "EsriRealisticTreesStyle"
+            }
+          },
+{
+  value: "Locust, Black",
+  symbol: {
+    type: "web-style",
+    name: "Robinia",
+    styleName: "EsriRealisticTreesStyle"
+  }
+},
+                              {
+            value: "Unknown",
+            symbol: {
+              type: "web-style",
+              name: "Sorbus",
+              styleName: "EsriRealisticTreesStyle"
+            }
+          },
+                    {
+            value: "Other",
+            symbol: {
+              type: "web-style",
+              name: "Robinia",
+              styleName: "EsriRealisticTreesStyle"
+            }
+          }
+        ];
+
+    </script>
+  </head>
+ <body>
+    <div id="viewDiv"></div>
+ </body>
+</html>

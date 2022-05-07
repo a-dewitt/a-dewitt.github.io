@@ -1,4 +1,4 @@
-{
+var whroads = {
 "type": "FeatureCollection",
 "name": "WH_roads",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
